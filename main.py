@@ -106,7 +106,7 @@ def calcular_area_cuadrilátero_gui():
         
         # Calcular área
         area = calcular_area_cuadrilátero(lat1_decimal, lon1_decimal, lat2_decimal, lon2_decimal)
-        messagebox.showinfo("Resultado Área", f"El área del cuadrilátero es de {area:.12f} metros cuadrados.")
+        messagebox.showinfo("Resultado Área", f"El área del cuadrilátero es de {area:.6-+f} metros cuadrados.")
     except ValueError:
         messagebox.showerror("Error", "Por favor, introduce valores válidos.")
 
@@ -249,6 +249,47 @@ entry_b.insert(0, str(b))
 
 button_actualizar_parametros = tk.Button(frame_parametros, text="Actualizar Parámetros", command=actualizar_parametros)
 button_actualizar_parametros.grid(row=2, column=0, columnspan=2, pady=10)
+
+def calcular_area_cuadrilátero_gui():
+    try:
+        # Latitud 1
+        lat1_grados = int(entry_lat1_grados.get())
+        lat1_minutos = int(entry_lat1_minutos.get())
+        lat1_segundos = float(entry_lat1_segundos.get())
+        lat1_decimal = sexagesimal_a_decimal(lat1_grados, lat1_minutos, lat1_segundos)
+        if var_lat1.get() == "S":
+            lat1_decimal = -lat1_decimal
+        
+        # Latitud 2
+        lat2_grados = int(entry_lat2_grados.get())
+        lat2_minutos = int(entry_lat2_minutos.get())
+        lat2_segundos = float(entry_lat2_segundos.get())
+        lat2_decimal = sexagesimal_a_decimal(lat2_grados, lat2_minutos, lat2_segundos)
+        if var_lat2.get() == "S":
+            lat2_decimal = -lat2_decimal
+        
+        # Longitud 1
+        lon1_grados = int(entry_lon1_grados.get())
+        lon1_minutos = int(entry_lon1_minutos.get())
+        lon1_segundos = float(entry_lon1_segundos.get())
+        lon1_decimal = sexagesimal_a_decimal(lon1_grados, lon1_minutos, lon1_segundos)
+        if var_lon1.get() == "W":
+            lon1_decimal = -lon1_decimal
+        
+        # Longitud 2
+        lon2_grados = int(entry_lon2_grados.get())
+        lon2_minutos = int(entry_lon2_minutos.get())
+        lon2_segundos = float(entry_lon2_segundos.get())
+        lon2_decimal = sexagesimal_a_decimal(lon2_grados, lon2_minutos, lon2_segundos)
+        if var_lon2.get() == "W":
+            lon2_decimal = -lon2_decimal
+        
+        # Calcular área
+        area = calcular_area_cuadrilátero(lat1_decimal, lon1_decimal, lat2_decimal, lon2_decimal)
+        messagebox.showinfo("Resultado Área", f"El área del cuadrilátero es de {area:.6f} metros cuadrados.")
+    except ValueError:
+        messagebox.showerror("Error", "Por favor, introduce valores válidos.")
+
 
 # Crear frame para las entradas de los vértices del cuadrilátero
 frame_entradas = tk.Frame(root)

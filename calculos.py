@@ -1,7 +1,7 @@
 # calculos.py
 import math
 import scipy.integrate as integrate
-from parametros import a, b, e2, e22
+from parametros import a, b, e2, e22, e
 from scipy.integrate import quad
 
 def sexagesimal_a_decimal(grados, minutos, segundos):
@@ -42,19 +42,34 @@ def longitud_arco_paralelo_con_longitudes(latitud_deg, longitud1_deg, longitud2_
     longitud_arco = N_phi * math.cos(latitud_rad) * delta_longitud_rad
     return longitud_arco
 
-def integrand(phi):
-    sin_phi = math.sin(phi)
-    cos_phi = math.cos(phi)
-    return cos_phi / ((1 - e2 * sin_phi**2)**2)
+# calculos.py
+import math
+from parametros import a, e2
+
+def sexagesimal_a_decimal(grados, minutos, segundos):
+    return grados + (minutos / 60.0) + (segundos / 3600.0)
+
+# calculos.py
+import math
+from parametros import a, e2
+
+def sexagesimal_a_decimal(grados, minutos, segundos):
+    return grados + (minutos / 60.0) + (segundos / 3600.0)
 
 def calcular_area_cuadrilátero(lat1, lon1, lat2, lon2):
-    phi1 = math.radians(lat1)
-    phi2 = math.radians(lat2)
-    delta_lambda = math.radians(lon2 - lon1)
+    lat1_rad = math.radians(lat1)
+    lat2_rad = math.radians(lat2)
+    delta_lon_rad = math.radians(lon2 - lon1)
     
-    integral, _ = quad(integrand, phi1, phi2)
-    
-    # Calcular el área del cuadrilátero
-    area = b**2 * delta_lambda * integral
-      
+    area = abs(a**2 * (1 - e2) * delta_lon_rad * 
+               (math.sin(lat2_rad) - math.sin(lat1_rad) + 
+                (2/3) * e2 * (math.sin(lat2_rad)**3 - math.sin(lat1_rad)**3) + 
+                (3/5) * (e2**2) * (math.sin(lat2_rad)**5 - math.sin(lat1_rad)**5) + 
+                (4/7) * (e2**3) * (math.sin(lat2_rad)**7 - math.sin(lat1_rad)**7) + 
+                (5/9) * (e2**4) * (math.sin(lat2_rad)**9 - math.sin(lat1_rad)**9) +
+                (6/11) * (e2**5) * (math.sin(lat2_rad)**11 - math.sin(lat1_rad)**11) +
+                (7/13) * (e2**6) * (math.sin(lat2_rad)**13 - math.sin(lat1_rad)**13) +
+                (8/15) * (e2**7) * (math.sin(lat2_rad)**15 - math.sin(lat1_rad)**15)))
+
     return area
+
